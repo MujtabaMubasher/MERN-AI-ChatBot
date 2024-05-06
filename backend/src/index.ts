@@ -1,8 +1,15 @@
-import express from "express";
-const app = express();
+import app from "./app.js";
+import { dbConnection } from "./db/connection.js";
 
-
-app.listen(5000, ()=>{
-    console.log("Server is listen on the Port 50000");
-    
+const PORT = process.env.PORT || 5000
+// Connections and listeners
+dbConnection()
+.then(()=>{
+  app.listen(PORT, () => 
+    console.log("Server is listen && DataBase Connected")
+  );
+})
+.catch((error)=>{
+   console.log(error);
+   
 })

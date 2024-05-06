@@ -1,0 +1,5 @@
+const getAllusers = () => {
+
+}
+
+export  {getAllusers}
