@@ -1,33 +1,33 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
-const chatSchema = new mongoose.Schema({
+const chatSchema = new Schema({
     id: {
         type: String,
         default: randomUUID(),
     },
     role: {
         type: String,
-        require: true,
+        required: true,
     },
     content: {
         type: String,
-        require: true,
+        required: true,
     }
 }, { timestamps: true });
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username: {
         type: String,
-        require: true,
+        required: true,
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
     password: {
         type: String,
-        require: [true, "password is required"],
+        required: [true, "password is required"],
     },
     chats: [chatSchema],
 }, { timestamps: true });

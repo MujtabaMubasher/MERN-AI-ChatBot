@@ -2,11 +2,13 @@ import express from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
 import router from "./routes/router.js";
+import cookieParser from "cookie-parser";
 config();
 const app = express();
 // use for Read some data from client side
 // Middlewares
 app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 // remove it in production
 app.use(morgan("dev"));
 app.use("/api/v1", router);

@@ -1,4 +1,6 @@
 import { User } from "../models/user-model.js";
+import { generateAccessToken } from "../utils/token-manager.js";
+import { COOKIE_NAME } from "../utils/constants.js";
 const getAllusers = async (req, res, next) => {
     try {
         const users = await User.find();
@@ -38,8 +40,50 @@ const signUp = async (req, res) => {
         return res.status(500).json({ message: "Something went wrong while creating the user", error: error.message });
     }
 };
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const userExist = await User.findOne({ email });
+        if (!userExist) {
+            return res.status(401).send("This email doest not Exist");
+        }
+        //console.log(user);
+        const isPasswordValid = await userExist.isPasswordCorrect(password);
+        if (!isPasswordValid) {
+            return res.status(401).send("Password is Invalid");
+        }
+        const accessToken = await generateAccessToken(userExist._id, userExist.email, process.env.ACCESS_TOKEN_EXPIRY);
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        // res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
+        //   httpOnly: false,
+        //   domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+        //   signed: true,
+        //   path: "/",
+        //   secure: true
+        // });
+        res.cookie(COOKIE_NAME, accessToken, {
+            path: "/",
+            domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+            expires,
+            httpOnly: true,
+            signed: true,
+            secure: true,
+        });
+        const userLogin = await User.findById(userExist._id).select("-password");
+        return res.status(200).json({
+            user: userLogin,
+            message: "Login Successful"
+        });
+    }
+    catch (error) {
+        console.error("Error Login user:", error);
+        return res.status(500).json({ message: "Something went wrong while Login the user", error: error.message });
+    }
+};
 // My code
-/*const signUp = async(req,res) => {
+/*
+const signUp = async(req,res) => {
       
       const {username, email, password} = req.body;
       if
@@ -78,5 +122,5 @@ const signUp = async (req, res) => {
       }
    
 }*/
-export { getAllusers, signUp };
+export { getAllusers, signUp, login };
 //# sourceMappingURL=user-controller.js.map
