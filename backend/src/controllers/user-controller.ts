@@ -51,6 +51,7 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    //console.log("Login request received:", req.body);
     const  {email, password} = req.body;
      const userExist = await User.findOne({email});
     if (!userExist) {
@@ -82,7 +83,7 @@ const login = async (req, res) => {
       accessToken,
       {
         path: "/",
-        domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+        domain: "localhost",
         expires,
         httpOnly: true,
         signed: true,
@@ -92,7 +93,8 @@ const login = async (req, res) => {
     const userLogin = await User.findById(userExist._id).select("-password");
 
     return res.status(200).json({
-      user: userLogin,
+      name: userLogin.username,
+      email: userLogin.email,
       message:"Login Successful"
     });
   } catch (error) {

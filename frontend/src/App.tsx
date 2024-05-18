@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import { Home, Chat, Login, Signup, NotFound } from "./pages";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
+  console.log(useAuth()?.isLogedIn);
   return (
     <main>
       <Header />

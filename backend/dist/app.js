@@ -3,12 +3,28 @@ import { config } from "dotenv";
 import morgan from "morgan";
 import router from "./routes/router.js";
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 config();
 const app = express();
 // use for Read some data from client side
 // Middlewares
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
+const allowedOrigin = "https://turbo-winner-9xg9g96xqp5fpr79-5173.app.github.dev";
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true
+}));
+// Middleware to clear unwanted cookies
+app.use((req, res, next) => {
+    res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
+        path: "/",
+        domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+        httpOnly: true,
+        secure: true,
+    });
+    next();
+});
 // remove it in production
 app.use(morgan("dev"));
 app.use("/api/v1", router);

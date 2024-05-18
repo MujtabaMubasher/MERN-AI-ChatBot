@@ -8,15 +8,15 @@ function Logo() {
         display: "flex",
         marginRight: "auto",
         alignItems: "center",
-        gap: "15px",
+        gap: "10px",
       }}
     >
       <Link to={"/"}>
         <img 
         src="openai.png" 
         alt="openai"
-        width={"30px"}
-        height={"30px"}
+        width={"50px"}
+        height={"50px"}
         className="image-inverted"
         />
       </Link>{" "}
@@ -28,7 +28,7 @@ function Logo() {
         textShadow: "2px 2px 20px #000",
       }}
      >
-      <span style={{fontSize: "25px"}}>MERN</span><span style={{fontSize: "16px"}}>-GPT</span> 
+      <span style={{fontSize: "30px"}}>MUJTABA</span><span style={{fontSize: "20px"}}>-GPT</span> 
      </Typography>
       
     </div>

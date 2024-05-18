@@ -3,11 +3,21 @@
 html, body{
   margin: 0;
   padding: 0;
-  background: #051010;
+  background: #001616;
   color: white;
   font-family: "Roboto Slab", serif;
 }
 
 .image-inverted{
   filter: invert(100%);
+}
+.nav-link{
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 0px 10px 0px 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  letter-spacing: 1px;
 }

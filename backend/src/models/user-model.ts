@@ -44,10 +44,10 @@ userSchema.pre("save", async function (next){
 });
 
 interface IUser extends Document {
-    //username: string;
-       email: string;
-    //password: string;
-    // chats: Array<any>; // Change this type according to your chat schema
+     username: string;
+     email: string;
+     password: string;
+     chats: Array<any>; // Change this type according to your chat schema
     isPasswordCorrect(password) //Promise<boolean>; // Custom method
 }
 
