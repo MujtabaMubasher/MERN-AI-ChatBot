@@ -20,7 +20,7 @@ const generateAccessToken = async (id: string, email: string, expiresIn: string)
 }
 
 const verifyAccessToken = async (req, res, next) => {
-  const token = req.cookies[COOKIE_NAME]
+  const token = req.signedCookies[COOKIE_NAME]
   console.log(token);
   
 }
