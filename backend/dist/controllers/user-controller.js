@@ -58,29 +58,20 @@ const login = async (req, res) => {
         const accessToken = await generateAccessToken(userExist._id, userExist.email, process.env.ACCESS_TOKEN_EXPIRY);
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
-        // res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
-        //   httpOnly: false,
-        //   domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
-        //   signed: true,
-        //   path: "/",
-        //   secure: true
-        // });
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: false,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+            secure: true
+        });
         res.cookie(COOKIE_NAME, accessToken, {
             path: "/",
-            domain: "turbo-winner-9xg9g96xqp5fpr79-5173.app.github.dev",
+            domain: "localhost",
             expires,
             httpOnly: true,
             signed: true,
             secure: true,
-        });
-        app.use((req, res, next) => {
-            res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
-                path: "/",
-                domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
-                httpOnly: true,
-                secure: true,
-            });
-            next();
         });
         const userLogin = await User.findById(userExist._id).select("-password");
         return res.status(200).json({
