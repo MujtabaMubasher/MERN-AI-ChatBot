@@ -108,6 +108,45 @@ const login = async (req, res) => {
 
 }
 
+const verifyUser = async (req, res) => {
+  try {
+    //console.log("Login request received:", req.body);
+    const userExist = await User.findById(req.user?._id);
+    if (!userExist) {
+      return res
+        .status(401)
+        .send("User Does not Registered OR Token malfunctioned ");
+    }
+    //console.log(userExist);
+    //console.log(req.user?._id.toString());
+    if (userExist._id.toString() !== req.user?._id.toString()) {
+      console.log("Id Not Correct");
+      return res.status(401).send("Permissions didn't match");
+    }
+    // console.log("HHHHHHH");
+
+    const userLogin = await User.findById(userExist._id).select("-password");
+    if (!userLogin) {
+      console.log("User Does not found");
+    }
+    // console.log(userLogin);
+
+    return res.status(200).json({
+      name: userLogin.username,
+      email: userLogin.email,
+      message: "Login Successful",
+    });
+  } catch (error) {
+    console.error("Error Login user:", error);
+    return res
+      .status(500)
+      .json({
+        message: "Something went wrong while Login the user",
+        error: error.message,
+      });
+  }
+};
+
 
 // My code
 
@@ -152,4 +191,4 @@ const signUp = async(req,res) => {
    
 }*/
 
-export  {getAllusers,signUp,login}
+export  {getAllusers,signUp,login, verifyUser}
