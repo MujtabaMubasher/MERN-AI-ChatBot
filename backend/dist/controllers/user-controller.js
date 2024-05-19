@@ -1,6 +1,8 @@
 import { User } from "../models/user-model.js";
 import { generateAccessToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
+import express from "express";
+const app = express();
 const getAllusers = async (req, res, next) => {
     try {
         const users = await User.find();
@@ -65,11 +67,20 @@ const login = async (req, res) => {
         // });
         res.cookie(COOKIE_NAME, accessToken, {
             path: "/",
-            domain: "localhost",
+            domain: "turbo-winner-9xg9g96xqp5fpr79-5173.app.github.dev",
             expires,
             httpOnly: true,
             signed: true,
             secure: true,
+        });
+        app.use((req, res, next) => {
+            res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
+                path: "/",
+                domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+                httpOnly: true,
+                secure: true,
+            });
+            next();
         });
         const userLogin = await User.findById(userExist._id).select("-password");
         return res.status(200).json({

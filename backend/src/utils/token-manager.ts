@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { COOKIE_NAME } from "./constants.js";
 
 const generateAccessToken = async (id: string, email: string, expiresIn: string) => {
    try {
@@ -18,4 +19,10 @@ const generateAccessToken = async (id: string, email: string, expiresIn: string)
    }
 }
 
-export {generateAccessToken}
+const verifyAccessToken = async (req, res, next) => {
+  const token = req.cookies[COOKIE_NAME]
+  console.log(token);
+  
+}
+
+export {generateAccessToken,verifyAccessToken}

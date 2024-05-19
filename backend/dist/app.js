@@ -19,7 +19,7 @@ app.use(cors({
 app.use((req, res, next) => {
     res.clearCookie(".Tunnels.Relay.WebForwarding.Cookies", {
         path: "/",
-        domain: "turbo-winner-9xg9g96xqp5fpr79-5000.app.github.dev",
+        domain: "turbo-winner-9xg9g96xqp5fpr79-5137.app.github.dev",
         httpOnly: true,
         secure: true,
     });
